@@ -39,7 +39,6 @@ namespace Meetup.Data
             modelBuilder.Entity<Group>().HasData(new Group { Id = 1, Name = "Net-Baires", Description = "Comunidad de .Net" });
 
 
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meetup.Data.Migrations
 {
     [DbContext(typeof(MeetupContext))]
-    [Migration("20180711125504_Change_Model")]
+    [Migration("20180711132058_Change_Model")]
     partial class Change_Model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
