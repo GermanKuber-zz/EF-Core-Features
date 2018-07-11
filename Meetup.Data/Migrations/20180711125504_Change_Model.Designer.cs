@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meetup.Data.Migrations
 {
     [DbContext(typeof(MeetupContext))]
-    [Migration("20180711012658_First_Migration")]
-    partial class First_Migration
+    [Migration("20180711125504_Change_Model")]
+    partial class Change_Model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,10 @@ namespace Meetup.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new { Id = 1, Description = "Comunidad de .Net", Name = "Net-Baires" }
+                    );
                 });
 
             modelBuilder.Entity("Meetup.Domain.MeetupEvent", b =>
@@ -59,27 +63,29 @@ namespace Meetup.Data.Migrations
 
             modelBuilder.Entity("Meetup.Domain.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new { Id = 1, Email = "german.kuber@outlook.com" },
+                        new { Id = 2, Email = "Juan.Roso@hotmail.com" }
+                    );
                 });
 
             modelBuilder.Entity("Meetup.Domain.UserGroup", b =>
                 {
-                    b.Property<Guid>("GroupId");
+                    b.Property<int>("GroupId");
 
-                    b.Property<Guid>("UserId");
-
-                    b.Property<int?>("GroupId1");
+                    b.Property<int>("UserId");
 
                     b.HasKey("GroupId", "UserId");
-
-                    b.HasIndex("GroupId1");
 
                     b.HasIndex("UserId");
 
@@ -88,15 +94,11 @@ namespace Meetup.Data.Migrations
 
             modelBuilder.Entity("Meetup.Domain.UserMeetup", b =>
                 {
-                    b.Property<Guid>("MeetupId");
+                    b.Property<int>("MeetupId");
 
-                    b.Property<Guid>("UserId");
-
-                    b.Property<int?>("MeetupId1");
+                    b.Property<int>("UserId");
 
                     b.HasKey("MeetupId", "UserId");
-
-                    b.HasIndex("MeetupId1");
 
                     b.HasIndex("UserId");
 
@@ -114,7 +116,8 @@ namespace Meetup.Data.Migrations
                 {
                     b.HasOne("Meetup.Domain.Group", "Group")
                         .WithMany("Users")
-                        .HasForeignKey("GroupId1");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Meetup.Domain.User", "User")
                         .WithMany("Groups")
@@ -126,7 +129,8 @@ namespace Meetup.Data.Migrations
                 {
                     b.HasOne("Meetup.Domain.MeetupEvent", "Meetup")
                         .WithMany("Assistants")
-                        .HasForeignKey("MeetupId1");
+                        .HasForeignKey("MeetupId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Meetup.Domain.User", "User")
                         .WithMany()

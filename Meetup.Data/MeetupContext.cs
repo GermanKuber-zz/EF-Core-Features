@@ -1,6 +1,6 @@
 ﻿using Meetup.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.Extensions.Logging;
 
 namespace Meetup.Data
 {
@@ -10,9 +10,17 @@ namespace Meetup.Data
         public DbSet<User> Users { get; set; }
         public DbSet<MeetupEvent> Meetups { get; set; }
 
+        public static readonly LoggerFactory MyConsoleLoggerFactory
+               = new LoggerFactory(new[] {
+                          new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()});
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=MeetupDb;Integrated Security=SSPI;");
+            optionsBuilder
+                   .UseLoggerFactory(MyConsoleLoggerFactory)
+                   .UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=MeetupDb;Integrated Security=SSPI;")
+                   .EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,6 +30,15 @@ namespace Meetup.Data
 
             modelBuilder.Entity<UserMeetup>()
                    .HasKey(k => new { k.MeetupId, k.UserId });
+
+        
+            modelBuilder.Entity<User>().HasData(new User {Id = 1, Email = "german.kuber@outlook.com" });
+
+            modelBuilder.Entity<User>().HasData(new User { Id = 2, Email = "Juan.Roso@hotmail.com" });
+
+            modelBuilder.Entity<Group>().HasData(new Group { Id = 1, Name = "Net-Baires", Description = "Comunidad de .Net" });
+
+
 
             base.OnModelCreating(modelBuilder);
         }

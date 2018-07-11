@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Meetup.Data.Migrations
 {
-    public partial class First_Migration : Migration
+    public partial class Change_Model : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,8 @@ namespace Meetup.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -60,19 +61,18 @@ namespace Meetup.Data.Migrations
                 name: "UserGroup",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(nullable: false),
-                    GroupId = table.Column<Guid>(nullable: false),
-                    GroupId1 = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserGroup", x => new { x.GroupId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UserGroup_Groups_GroupId1",
-                        column: x => x.GroupId1,
+                        name: "FK_UserGroup_Groups_GroupId",
+                        column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserGroup_Users_UserId",
                         column: x => x.UserId,
@@ -85,19 +85,18 @@ namespace Meetup.Data.Migrations
                 name: "UserMeetup",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(nullable: false),
-                    MeetupId = table.Column<Guid>(nullable: false),
-                    MeetupId1 = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false),
+                    MeetupId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserMeetup", x => new { x.MeetupId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UserMeetup_Meetups_MeetupId1",
-                        column: x => x.MeetupId1,
+                        name: "FK_UserMeetup_Meetups_MeetupId",
+                        column: x => x.MeetupId,
                         principalTable: "Meetups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserMeetup_Users_UserId",
                         column: x => x.UserId,
@@ -106,25 +105,30 @@ namespace Meetup.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Groups",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[] { 1, "Comunidad de .Net", "Net-Baires" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email" },
+                values: new object[] { 1, "german.kuber@outlook.com" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email" },
+                values: new object[] { 2, "Juan.Roso@hotmail.com" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Meetups_GroupId",
                 table: "Meetups",
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserGroup_GroupId1",
-                table: "UserGroup",
-                column: "GroupId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserGroup_UserId",
                 table: "UserGroup",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserMeetup_MeetupId1",
-                table: "UserMeetup",
-                column: "MeetupId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserMeetup_UserId",
