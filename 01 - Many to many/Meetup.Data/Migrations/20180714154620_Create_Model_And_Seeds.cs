@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Meetup.Data.Migrations
 {
-    public partial class Change_Model : Migration
+    public partial class Create_Model_And_Seeds : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
