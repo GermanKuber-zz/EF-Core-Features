@@ -12,6 +12,6 @@ namespace Meetup.Domain
         public string Email { get; set; }
         public List<UserGroup> Groups { get; set; } = new List<UserGroup>();
 
-        public int? GroupId { get; set; }//TODO: 02 - Agrego la FK
+        public int? GroupFounder { get; set; }  //TODO: 02 - Agrego una FK al grupo fundado
     }
 }

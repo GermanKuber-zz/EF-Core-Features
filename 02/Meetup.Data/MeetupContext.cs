@@ -27,7 +27,7 @@ namespace Meetup.Data
         {
             ConfigureEntities(modelBuilder);
 
-            CreateSeeds(modelBuilder);  
+            CreateSeeds(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -35,18 +35,26 @@ namespace Meetup.Data
         private static void ConfigureEntities(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserGroup>()
-                .HasKey(k => new {k.GroupId, k.UserId});
+                .HasKey(k => new { k.GroupId, k.UserId });
 
             modelBuilder.Entity<UserMeetup>()
-                .HasKey(k => new {k.MeetupId, k.UserId});
+                .HasKey(k => new { k.MeetupId, k.UserId });
 
-            var navigation = modelBuilder.Entity<MeetupEvent>().Metadata.FindNavigation(nameof(MeetupEvent.Assistants)); 
+            var navigation = modelBuilder.Entity<MeetupEvent>().Metadata.FindNavigation(nameof(MeetupEvent.Assistants));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            //TODO: 03 - Configuro la FK
+            modelBuilder.Entity<Group>()
+                .HasOne(i => i.Founder)
+                .WithOne()
+                .HasForeignKey<User>(u => u.GroupFounder);
         }
 
         private void CreateSeeds(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "german.kuber@outlook.com" });
+            var founder = new User { Id = 1, Email = "german.kuber@outlook.com" };
+
+            modelBuilder.Entity<User>().HasData(founder);
 
             modelBuilder.Entity<User>().HasData(new User { Id = 2, Email = "Juan.Roso@hotmail.com" });
 

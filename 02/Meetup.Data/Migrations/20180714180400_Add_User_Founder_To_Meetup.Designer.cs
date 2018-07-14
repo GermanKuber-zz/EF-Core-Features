@@ -4,14 +4,16 @@ using Meetup.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Meetup.Data.Migrations
 {
     [DbContext(typeof(MeetupContext))]
-    partial class MeetupContextModelSnapshot : ModelSnapshot
+    [Migration("20180714180400_Add_User_Founder_To_Meetup")]
+    partial class Add_User_Founder_To_Meetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
