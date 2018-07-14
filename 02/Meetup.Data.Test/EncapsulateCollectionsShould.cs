@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Meetup.Domain;
 using Xunit;
@@ -16,7 +17,7 @@ namespace Meetup.Data.Test
         [Fact]
         public void Crete_New_MeetupEvent_Add_Assistants()
         {
-            var meetupEvent = new MeetupEvent();
+            var meetupEvent = new MeetupEvent(DateTime.Now, DateTime.Now);
             _context.Add(meetupEvent);
             _context.SaveChanges();
 

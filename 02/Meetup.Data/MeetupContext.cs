@@ -1,4 +1,5 @@
-﻿using Meetup.Domain;
+﻿using System;
+using Meetup.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -27,9 +28,16 @@ namespace Meetup.Data
         {
             ConfigureEntities(modelBuilder);
 
-            CreateSeeds(modelBuilder);
+            //TODO: 01 - Configuro propiedades del tipo shadow
+            ConfigureShadowProperty(modelBuilder);
 
-            base.OnModelCreating(modelBuilder);
+            CreateSeeds(modelBuilder);
+        }
+
+        private static void ConfigureShadowProperty(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MeetupEvent>().Property<DateTime>("Created").IsRequired();
+            modelBuilder.Entity<MeetupEvent>().Property<DateTime>("LastModified");
         }
 
         private static void ConfigureEntities(ModelBuilder modelBuilder)
@@ -58,7 +66,7 @@ namespace Meetup.Data
         private void CreateSeeds(ModelBuilder modelBuilder)
         {
             var founder = new User { Id = 1, Email = "german.kuber@outlook.com" };
-
+     
             modelBuilder.Entity<User>().HasData(founder);
 
             modelBuilder.Entity<User>().HasData(new User { Id = 2, Email = "Juan.Roso@hotmail.com" });

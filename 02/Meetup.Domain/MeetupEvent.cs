@@ -21,6 +21,16 @@ namespace Meetup.Domain
         public void AddAssistant(User user) =>
             _assistants.Add(new UserMeetup { Meetup = this, User = user });
 
+        public MeetupEvent(DateTime from, DateTime to)
+        {
+            From = from;
+            To = to;
+        }
+
+        protected MeetupEvent()
+        {
+            
+        }
     }
 
 

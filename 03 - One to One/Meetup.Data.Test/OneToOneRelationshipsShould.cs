@@ -78,6 +78,14 @@ namespace Meetup.Data.Test
         {
             //TODO: 10 - Cambio el profile, y se agregan dos profile
 
+            using (var context = new MeetupContext())
+            {
+                var german = context.Users.Include(x => x.Profile).First(x => x.Email == "german.kuber@outlook.com");
+                german.Profile = new Profile { Twitter = "Twiiter Test 1" };
+                context.SaveChanges();
+            }
+
+
             User userWithoutTracking;
             using (var context = new MeetupContext())
             {
@@ -91,6 +99,7 @@ namespace Meetup.Data.Test
             act.Should().Throw<DbUpdateException>();
 
         }
+       
 
         private Group GetGroup()
         {

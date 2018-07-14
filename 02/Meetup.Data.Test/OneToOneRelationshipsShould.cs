@@ -74,6 +74,12 @@ namespace Meetup.Data.Test
         [Fact]
         public void Change_Object_One_To_Another_Without_Tracking()
         {
+            using (var context = new MeetupContext())
+            {
+                var german = context.Users.Include(x => x.Profile).First(x => x.Email == "german.kuber@outlook.com");
+                german.Profile = new Profile { Twitter = "Twiiter Test 1" };
+                context.SaveChanges();
+            }  
 
             User userWithoutTracking;
             using (var context = new MeetupContext())
