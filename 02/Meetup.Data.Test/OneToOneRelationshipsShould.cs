@@ -6,10 +6,10 @@ using Xunit;
 
 namespace Meetup.Data.Test
 {
-    public class OneToOneRelationShould
+    public class OneToOneRelationshipsShould
     {
         private readonly MeetupContext _context;
-        public OneToOneRelationShould()
+        public OneToOneRelationshipsShould()
         {
             _context = new MeetupContext();
         }
