@@ -19,6 +19,7 @@ namespace Meetup.Data.Test
         [Fact]
         public void Add_Founder_To_Group_Through_User_Fk()
         {
+            //TODO: 04 - Agrego un fundador al grupo 
             var netBaires = GetGroup();
 
             var german = _context.Users.First(x => x.Email == "german.kuber@outlook.com");
@@ -55,6 +56,7 @@ namespace Meetup.Data.Test
         [Fact]
         public void Change_Object_One_To_Another()
         {
+            //TODO: 09 - La entidad Profile se elimina  al cambiarla
             var newTwitter = "New Twitter";
             var german = _context.Users.Include(x => x.Profile).First(x => x.Email == "german.kuber@outlook.com");
             german.Profile = new Profile { Twitter = "Twiiter Test" };
@@ -74,6 +76,7 @@ namespace Meetup.Data.Test
         [Fact]
         public void Change_Object_One_To_Another_Without_Tracking()
         {
+            //TODO: 10 - Cambio el profile, y se agregan dos profile
 
             User userWithoutTracking;
             using (var context = new MeetupContext())

@@ -13,6 +13,7 @@ namespace Meetup.Domain
         public string Description { get; set; }
         public List<UserGroup> Users { get; set; }
         public List<MeetupEvent> Meetups { get; set; }
+        //TODO: 01 - Agrego un usuario como fundador
         public User Founder { get; protected set; }
 
         public void AddFounder(User user)
