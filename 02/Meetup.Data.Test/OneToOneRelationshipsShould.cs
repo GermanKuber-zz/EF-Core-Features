@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Meetup.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,23 @@ namespace Meetup.Data.Test
             netBaires.Founder.Should().Be(german);
 
             netBaires.SetFreeGroup(german);
+            _context.SaveChanges();
+        }
+
+        [Fact]
+        public void Add_Profile_To_User()
+        {
+
+            var german = _context.Users.Include(x => x.Profile).First(x => x.Email == "german.kuber@outlook.com");
+
+            german.Profile = new Profile { Twitter = "Twiiter Test" };
+            _context.SaveChanges();
+
+            german = _context.Users.Include(x => x.Profile).First(x => x.Email == "german.kuber@outlook.com");
+
+            german.Profile.Should().NotBeNull();
+
+            german.Profile = null;
             _context.SaveChanges();
         }
 

@@ -48,6 +48,12 @@ namespace Meetup.Data
                 .HasOne(i => i.Founder)
                 .WithOne()
                 .HasForeignKey<User>(u => u.GroupFounder);
+
+             //TODO: 07 - Configuro la relación del perfil
+            modelBuilder.Entity<User>()
+                .HasOne(s => s.Profile)
+                .WithOne(u => u.User)
+                .IsRequired();
         }
 
         private void CreateSeeds(ModelBuilder modelBuilder)
